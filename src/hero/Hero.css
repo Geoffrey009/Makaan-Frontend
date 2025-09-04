@@ -1,0 +1,214 @@
+.hero {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.leftHero {
+    margin-top: 175px;
+    padding-left: 50px;
+}
+
+.leftHero h1 {
+    font-weight: bolder;
+    font-size: 50px;
+    color: #0E2E50;
+    margin-bottom: 1.5rem !important;
+    animation: slideDown 2s ease;
+}
+
+
+.leftHero .start {
+    width: 160px;
+    height: 60px;
+    background-color: #00B98E;
+    color: white;
+    border-radius: 5px;
+    border: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    animation: slideLeft 2s ease;
+}
+
+.intro {
+    color: #666565;
+    line-height: 1.5;
+    margin-bottom: 1.5rem !important;
+    animation: slideRight 2s ease;
+}
+
+.rightHero {
+    width: 100%;
+    background-color: black;
+}
+
+.leftRightIcons {
+    margin-top: 260px;
+    margin-left: -1.7vw;
+}
+
+.leftIconCover {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #00B98E;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.leftIcon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+.rightIconCover {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #00B98E;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.rightIcon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+.leftIconCover:hover, .rightIconCover:hover {
+    background-color: #0E2E50;
+}
+
+.heroImage {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    margin-top: -65vh;
+}
+
+.search {
+    width: 100%;
+    height: 130px;
+    background-color: #00B98E;
+    position: relative;
+    top: 99.9vh;
+    padding: 35px 70px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.searchBox {
+    width: 300px;
+    height: 60px;
+    background-color: white;
+    border-radius: 5px;
+    border: white;
+    padding: 20px 10px;
+    margin-right: 10px;
+}
+
+.searchBox::placeholder {
+    font-size: 16px;
+}
+
+.propertyType, .location {
+    width: 300px;
+    height: 60px;
+    background-color: white;
+    border-radius: 5px;
+    border: white;
+    font-size: 16px;
+    color: #666565;
+    padding: 20px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.searchBtn {
+    width: 180px;
+    height: 60px;
+    background-color: #0E2E50;
+    color: white;
+    border-radius: 5px;
+    border: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.scrollUp {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #00B98E;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    margin-top: 61.5vh;
+    margin-left: 91.5vw;
+    cursor: pointer;
+    display: none;
+    z-index: 9999;
+    transition: background-color 0.5s ease;
+}
+
+.upIcon {
+    margin-top: 7.5px;
+    margin-left: 8px;
+}
+
+.scrollUp.scrolled {
+    display: block;
+}
+
+.scrollUp:hover {
+    background-color: #0E2E50;
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-30vh);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        opacity: 0;
+        transform: translateX(-30vw);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(30vw);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

@@ -1,0 +1,358 @@
+.propertyListing {
+    margin: 120px 70px 0 70px;
+    width: 89%;
+}
+
+.titleMain {
+    font-weight: 700;
+    font-size: 40px;
+    color: #0E2E50;
+    text-align: left;
+    margin-bottom: 1.5rem !important;
+    transform: translateX(-500px);
+    opacity: 0;
+    transition: all 2s ease;
+}
+
+.content-types {
+    display: flex;
+    position: relative;
+}
+
+.content {
+    color: #666565;
+    line-height: 1.5;
+    text-align: left;
+    margin-bottom: 3rem !important;
+    transform: translateX(-300px);
+    opacity: 0;
+    transition: all 2s ease;
+}
+
+.types-one {
+    width: 90px;
+    height: 40px;
+    text-align: center !important;
+    line-height: 40px;
+    background-color: #00B98E;
+    border: 1px solid #00B98E;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: background-color 0.5s ease;
+}
+
+.types-two {
+    width: 80px;
+    height: 40px;
+    text-align: center !important;
+    line-height: 40px;
+    background-color: white;
+    border: 1px solid #00B98E;
+    border-radius: 5px;
+    color: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: background-color 0.5s ease;
+}
+
+.types-three {
+    width: 90px;
+    height: 40px;
+    text-align: center !important;
+    line-height: 40px;
+    background-color: white;
+    border: 1px solid #00B98E;
+    border-radius: 5px;
+    color: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.types-main {
+    position: absolute;
+    top: 2px;
+    /* margin-left: 74.1%; */
+    margin-left: 100%;
+    display: flex;
+    opacity: 0;
+    transition: all 2s ease;
+}
+
+.types-one:hover,
+.types-two:hover,
+.types-three:hover {
+    background-color: #00B98E;
+    color: white;
+}
+
+.types-two.for-sell {
+    background-color: #00B98E;
+    color: white;
+}
+
+.types-three.for-rent {
+    background-color: #00B98E;
+    color: white;
+}
+
+.types-one.featured-false {
+    background-color: white;
+    color: #00B98E;
+}
+
+.types-one.featured-false:hover {
+    background-color: #00B98E;
+    color: white;
+}
+
+.types-one.featured-true {
+    background-color: #00B98E;
+    color: white;
+}
+
+.property-types {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto !important;
+    gap: 20px;
+}
+
+.p-types {
+    width: 100%;
+    height: 400px;
+    background-color: #00B98E;
+    border-radius: 5px;
+    padding: 0;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .08);
+    overflow: hidden !important;
+    position: relative;
+    margin-top: 50px;
+    transition: all 2s ease;
+}
+
+.p-types:hover {
+    .type-image {
+        transform: scale(1.2);
+    }
+}
+
+
+.type-image {
+    width: 100%;
+    height: 60%;
+    background-size: cover;
+    background-position: center;
+    object-fit: cover;
+    position: absolute;
+    transition: transform 0.4s ease;
+    cursor: pointer;
+}
+
+.other {
+    width: 100%;
+    height: 50%;
+    margin-top: 66%;
+    background-color: white;
+    z-index: 9 !important;
+    position: absolute;
+    padding-top: 15px;
+    padding-left: 25px;
+}
+
+.rent-sell {
+    width: 90px;
+    height: 35px;
+    text-align: center !important;
+    line-height: 35px;
+    background-color: #00B98E;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: -37vh;
+    left: 25px;
+
+}
+
+.visible {
+    opacity: 1;
+    transform: translateX(0) !important;
+}
+
+.visible-two {
+    margin-left: 74.1%;
+    opacity: 1;
+}
+
+.visible-three {
+    margin-top: 0;
+    opacity: 1;
+}
+
+.house-type {
+    width: 100px;
+    height: 35px;
+    text-align: center !important;
+    line-height: 35px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    color: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: -5.3vh;
+    left: 25px;
+}
+
+.house-type-villa {
+    width: 60px;
+    height: 35px;
+    text-align: center !important;
+    line-height: 35px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    color: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: -5.3vh;
+    left: 25px;
+}
+
+.house-type-office {
+    width: 70px;
+    height: 35px;
+    text-align: center !important;
+    line-height: 35px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    color: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: -5.3vh;
+    left: 25px;
+}
+
+.house-type-building {
+    width: 90px;
+    height: 35px;
+    text-align: center !important;
+    line-height: 35px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    color: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: -5.3vh;
+    left: 25px;
+}
+
+.house-type-home {
+    width: 70px;
+    height: 35px;
+    text-align: center !important;
+    line-height: 35px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    color: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: -5.3vh;
+    left: 25px;
+}
+
+.price-tag {
+    color: #00B98E;
+    font-size: 21px;
+    margin-bottom: 0.8rem;
+}
+
+.house-desc {
+    font-size: 20px;
+    margin-bottom: -1vh;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.house-desc:hover {
+    color: #00B98E;
+}
+
+.location-display {
+    display: flex;
+    margin-bottom: -2vh;
+    margin-top: 15px;
+    margin-left: 8px;
+}
+
+.location-icon {
+    margin-left: -0.8vw;
+    margin-right: 5px;
+}
+
+.location-display p {
+    margin-top: -0.1vh;
+    font-size: 16px;
+    color: #666565;
+}
+
+.size-bed-bath {
+    width: 362px;
+    height: 30px;
+    margin-top: 27px;
+    border-top: 1px dashed #00b98e6b;
+    margin-left: -1.95vw !important;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.bed, .bath {
+    width: 100%;
+    height: 42px;
+    border-left: 1px dashed #00b98e6b;
+}
+
+.sqft-icon, .bath-icon, .bed-icon {
+    margin-top: 11px;
+    margin-left: 27px;
+}
+
+.size-bed-bath p {
+    margin-top: -3.3vh;
+    margin-left: 50px;
+    font-size: 14px;
+    color: #666565;
+}
+
+
+.browse-more {
+    width: 250px;
+    height: 60px;
+    background-color: #00B98E;
+    color: white;
+    border-radius: 5px;
+    border: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 20px 0 100px 39%;
+    transition: background-color 0.4s ease;
+}
+
+.browse-more:hover {
+    background-color: #0E2E50;
+}

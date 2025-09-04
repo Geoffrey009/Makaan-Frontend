@@ -1,0 +1,193 @@
+.propertyTypes {
+    margin: 115vh 70px 0 70px;
+}
+
+.heading {
+    font-weight: 700;
+    font-size: 40px;
+    color: #0E2E50;
+    text-align: center;
+    margin-bottom: 1.5rem !important;
+}
+
+.headingContent {
+    color: #666565;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 1.5rem !important;
+}
+
+.types {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+
+.type {
+    width: 100%;
+    height: 225px;
+    background-color: #00b98e10;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center !important;
+    position: relative;
+    cursor: pointer;
+    animation: slideUp 4s ease forwards;
+}
+
+.headingCover {
+    animation: slideUp 4s ease forwards;
+}
+
+.typeMainOne, .typeMainTwo, .typeMainThree, .typeMainFour, .typeMainFive, .typeMainSix, .typeMainSeven, .typeMainEight {
+    width: 85%;
+    height: 85%;
+    background-color: white;
+    position: absolute;
+    top: 16.875px;
+    left: 20px;
+    border: 1px dashed #00b98e4e !important;
+    border-radius: 5px;
+    padding: 25px;
+    transition: background-color 0.5s ease;
+}
+
+.type:hover {
+    .typeMainOne, .typeMainTwo, .typeMainThree, .typeMainFour, .typeMainFive, .typeMainSix, .typeMainSeven, .typeMainEight {
+        background-color: #00B98E;
+    }
+
+    .iconName {
+        color: white;
+    }
+
+    .number {
+        color: white;
+    }
+}
+
+.iconCover {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px dashed #00B98E !important;
+    margin-left: 45px;
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+.image {
+    margin-top: 15px;
+    margin-left: 16px;
+}
+
+.iconName {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0E2E50;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: color 0.5s ease;
+}
+
+.number {
+    text-align: center;
+    color: #00B98E;
+    transition: color 0.5s ease;
+}
+
+/* .typeMainOne:hover, .typeMainTwo:hover, .typeMainThree:hover, .typeMainFour:hover, .typeMainFive:hover, .typeMainSix:hover, .typeMainSeven:hover, .typeMainEight:hover {
+    background-color: #00B98E;
+} */
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(10vh);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* margin: 115vh 70px 0 70px; */
+
+.perfectProperty {
+    margin: 15vh 70px 0 70px;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 240px;
+}
+
+.perfectOne, .perfectTwo {
+    height: 520px;
+}
+
+.perfectTwo {
+    padding-top: 80px;
+}
+
+.bg-shape {
+    width: 300px; /* adjust width */
+    height: 100%;
+    background-color: #00B98E;
+    clip-path: polygon(0 0, 170px 0, 100% 100%, 0% 100%);
+    position: relative;
+}
+
+.perfectImage {
+    width: 450px;
+    height: 75%;
+    margin-left: 50px;
+    margin-top: -81.9vh !important;
+    z-index: 9;
+    position: absolute !important;
+}
+
+.perfectTwoTitle {
+    font-weight: 700;
+    font-size: 40px;
+    color: #0E2E50;
+    margin-bottom: 1.5rem !important;
+}
+
+.perfectTwoIntro {
+    color: #666565;
+    line-height: 1.5;
+    margin-bottom: 1.5rem !important;
+}
+
+.checks {
+    position: relative;
+}
+
+.checks p {
+    color: #666565;
+    line-height: 1.5;
+    margin-bottom: 1rem !important;
+    margin-left: 30px;
+}
+
+.check {
+    position: absolute;
+    top: 3px;
+}
+
+.readMore {
+    width: 180px;
+    height: 60px;
+    background-color: #00B98E;
+    color: white;
+    border-radius: 5px;
+    border: #00B98E;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.readMore:hover {
+    background-color: #0E2E50;
+}

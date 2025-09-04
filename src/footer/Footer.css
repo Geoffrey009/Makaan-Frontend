@@ -1,0 +1,229 @@
+.footer {
+    width: 100%;
+    height: 70vh;
+    background-color: #0E2E50;
+    padding: 100px 70px 30px 70px;
+}
+
+.footer-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.get-in-touch, .quick-links, .photo-gallery, .newsletter {
+    width: 100%;
+    height: 35vh;
+}
+
+.footer-main h3 {
+    font-size: 1.25rem;
+    color: white;
+}
+
+.get-in-touch-other, .quick-links-other, .newsletter-other {
+    margin-top: 25px;
+}
+
+.get-in-touch-other p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 1rem;
+    margin-left: 15px;
+}
+
+.details {
+    display: flex;
+}
+
+.social-media {
+    display: flex;
+    gap: 7px;
+}
+
+.twitter-outline, .facebook-outline, .youtube-outline, .linkedin-outline {
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+.twitter-outline:hover, .facebook-outline:hover, .youtube-outline:hover, .linkedin-outline:hover {
+    background-color: white;
+
+    .social-media-icon {
+        color: #00B98E !important;
+    }
+}
+
+.social-media-icon {
+    position: absolute;
+    top: 8px;
+    left: 8.3px;
+    transition: all 0.4s ease;
+}
+
+.details-two {
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: all 0.4s ease;
+}
+
+.details-two:hover {
+    letter-spacing: 1px;
+}
+
+.details-two p {
+    font-size: .9rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-left: 15px;
+    position: absolute;
+    left: 5px;
+    top: -0.5vh;
+}
+
+.photo-gallery-other {
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+    margin-top: 25px;
+}
+
+.photo {
+    width: 100%;
+    height: 10vh;
+    border-radius: 5px;
+    border: 4px solid white;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.photo:hover {
+    border: 4px solid #00B98E;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.quick-links {
+    margin-left: 30px;
+}
+
+.photo-gallery {
+    margin-left: -3vw;
+}
+
+.newsletter {
+    margin-left: 50px;
+}
+
+.newsletter-other p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.quick-sign-up {
+    margin-top: 20px;
+    width: 85%;
+    height: 60px;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    align-content: center;
+    position: relative;
+}
+
+.quick-sign-up input {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    height: 100%;
+    margin-right: 0;
+    transition: all 0.4s ease;
+    position: relative;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    padding-left: 10px;
+    padding-right: 95px;
+}
+
+.quick-sign-up input::placeholder {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    left: 5%;
+}
+
+.quick-sign-up input:focus {
+    border: 3px solid #00B98E;
+}
+
+.quick-sign-up button {
+    position: absolute;
+    width: 75px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #00B98E;
+    border: none;
+    left: 64%;
+    top: 15.5%;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+hr {
+    margin-top: -6.5vh;
+    border: 0.01vh solid rgba(255, 255, 255, 0.5);
+}
+
+.last {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.last-one {
+    width: 60%;
+}
+
+.last span {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.last a {
+    text-decoration: none;
+    color: white;
+}
+
+.last-two {
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.partition {
+    position: relative;
+}
+
+.last-two a {
+    margin-right: 40px;
+}
+
+.last-two hr {
+    transform: rotateY(90);
+    height: 20px;
+    position: absolute;
+    top: 37px;
+    left: -1.6vw;
+}

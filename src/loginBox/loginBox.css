@@ -1,0 +1,347 @@
+.login-box {
+    width: 100%;
+    height: 100vh !important;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    /* ✅ Smooth fade */
+    z-index: -1;
+    /* Behind content */
+}
+
+.bg-image.active {
+    opacity: 1;
+}
+
+.login-box-main {
+    width: 30vw;
+    height: 76.1vh;
+    background-color: white !important;
+    /* keep white */
+    border-radius: 5px;
+    position: relative;
+    top: 22vh;
+    padding: 20px 15px;
+    margin-left: 64.5%;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .8);
+    animation: slideInRight 3s ease;
+    /* z-index: 99; */
+    /* ensure it sits above overlay */
+    overflow-y: hidden;
+}
+
+.login-box-main * {
+    position: relative;
+    /* Ensures your text stays above the overlay */
+    z-index: 1;
+}
+
+
+.login-box-main .login-title {
+    color: #0E2E50;
+    margin-bottom: .5rem !important;
+    animation: slideDown 2s ease;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.login-desc {
+    color: #666565;
+    line-height: 1.5;
+    margin-bottom: 1rem !important;
+    font-size: 14px;
+    animation: slideRight 2s ease;
+    font-weight: bold;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.email-label,
+.password-label {
+    color: #0E2E50;
+    line-height: 1.5;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: .5rem;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.email-label {
+    animation: slideLeft 3s ease;
+}
+
+.password-label {
+    animation: slideRight 3s ease;
+}
+
+input {
+    width: 100%;
+    height: 40px;
+    padding: 20px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+    outline: none;
+    transition: border-color 0.4s ease, border-width 0.4s ease;
+}
+
+input:focus {
+    border-radius: 5px;
+    border-color: #00B98E;
+    /* change border color */
+    border-width: 3px;
+    /* increase border width */
+    outline: none;
+}
+
+.input-one {
+    margin-bottom: .5rem;
+    animation: slideLeft 3s ease;
+    overflow-x: hidden;
+}
+
+.input-two {
+    animation: slideRight 3s ease;
+    overflow-x: hidden;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px;
+    /* Space for the icon */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #555;
+    font-size: 18px;
+}
+
+.eye, .eye-slash {
+    transition: all 0.4s ease;
+}
+
+.eye:hover, .eye-slash:hover {
+    color: #00B98E;
+}
+
+.login-btn {
+    width: 100%;
+    height: 40px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+    background-color: #0E2E50;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.login-btn:hover {
+    background-color: #00B98E;
+}
+
+a {
+    text-decoration: none;
+}
+
+.no-account {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 1.2rem;
+}
+
+.no-account-signup {
+    font-weight: bold;
+    color: #0E2E50;
+}
+
+.or {
+    display: flex;
+    justify-self: center;
+    position: relative;
+}
+
+.or p {
+    text-align: center;
+    margin-top: 1rem;
+    color: #666565;
+    font-size: 14px;
+}
+
+.line-one, .line-two {
+    /* position: absolute;
+    width: 60px;
+    height: 1px;
+    top: 30px;
+    background-color: red; */
+    background-color: #666565;
+    height: 1px;
+    margin-top: 25px;
+    width: 150px;
+}
+
+.line-one {
+    margin-right: 10px;
+}
+
+.line-two {
+    margin-left: 10px;
+}
+
+.google-auth {
+    margin-top: .5rem;
+}
+
+.login-success {
+    width: 20vw;
+    height: 7vh;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 50px 50px 70px rgb(0, 0, 0);
+    position: absolute;
+    justify-self: center;
+    border-left: 5px solid #00B98E;
+    top: -2vh; /* Start hidden */
+    opacity: 0;
+    pointer-events: none; /* Prevents clicks when hidden */
+}
+
+/* When showing */
+.login-success.success {
+    animation: toasterSlideDown 0.5s ease forwards;
+}
+
+/* When hiding */
+.login-success.unsuccess {
+    animation: toasterSlideUp 0.5s ease forwards;
+}
+
+.check-icon {
+    margin-top: 7px;
+    margin-left: 15px;
+}
+
+.login-success p {
+    color: #666565;
+    margin-left: 50px;
+    margin-top: -4.5vh;
+}
+
+.spinner-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: center;
+  justify-content: center;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(50vw);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-10vh);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        opacity: 0;
+        transform: translateX(-5vw);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(5vw);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toasterSlideDown {
+    0% {
+        top: -2vh;
+        opacity: 0;
+    }
+    100% {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes toasterSlideUp {
+    0% {
+        top: 0;
+        opacity: 1;
+    }
+    100% {
+        top: -2vh;
+        opacity: 0;
+    }
+}
