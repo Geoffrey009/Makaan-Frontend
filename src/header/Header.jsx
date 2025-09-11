@@ -2,29 +2,44 @@ import "./Header.css";
 import { useState, useEffect } from "react";
 import makaanLogo from "../assets/makaanIcon.png";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom";
+
 
 export const Header = () => {
     const [propertyOpen, setPropertyOpen] = useState(false);
     const [pagesOpen, setPagesOpen] = useState(false);
     const [hasScrolled, setHasScrolled] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const navigate = useNavigate();
+
+    // 🔑 Check login state on mount
+    useEffect(() => {
+        const storedUser = sessionStorage.getItem("user");
+        setIsLoggedIn(!!storedUser); // true if user exists
+    }, []);
 
     function checkScroll() {
         if (window.scrollY > 80) {
             setHasScrolled(true);
-        }
-        else {
-            setHasScrolled(false)
+        } else {
+            setHasScrolled(false);
         }
     }
 
     useEffect(() => {
         window.addEventListener("scroll", checkScroll);
         return () => {
-            window.removeEventListener("scroll", checkScroll)
-        }
-    }, [])
-    
+            window.removeEventListener("scroll", checkScroll);
+        };
+    }, []);
+
+    // 🔑 Handle logout
+    const handleLogout = () => {
+        sessionStorage.clear(); // remove token + user
+        window.location.href = "/login";
+    };
+
     return (
         <div className={`header ${hasScrolled ? "scrolled" : ""}`}>
             <div className="iconTitle">
@@ -71,7 +86,13 @@ export const Header = () => {
                         </div>
                     </div>
 
-                    <NavLink to="/login" className={({ isActive }) => (isActive ? "active-link" : "")}>LOGIN</NavLink>
+                    {/* 🔑 Show LOGIN if not logged in, else show LOGOUT */}
+                    {!isLoggedIn ? (
+                        <NavLink to="/login" className={({ isActive }) => (isActive ? "active-link" : "")}>LOGIN</NavLink>
+                    ) : (
+                        <NavLink onClick={handleLogout} className="logout-btn">LOGOUT</NavLink>
+                    )}
+
                     <NavLink to="/addProperty" className={({ isActive }) => (isActive ? "active-link" : "")}>
                         <button className="addProperty">Add Property</button>
                     </NavLink>

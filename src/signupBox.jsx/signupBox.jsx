@@ -44,19 +44,25 @@ export const Signup = () => {
         const userDataTwo = { fullName, email, password };
 
         try {
-            const response = await axios.post('https://makaan-real-estate.onrender.com/api/users/register', userDataTwo);
+            const response = await axios.post(
+                "https://makaan-real-estate.onrender.com/api/users/register",
+                userDataTwo
+            );
 
             // ✅ Save token and user from backend response
             sessionStorage.setItem("token", response.data.token);
             sessionStorage.setItem("user", JSON.stringify(response.data.user));
 
-            setLoginSuccess(true);
-            setTimeout(() => setLoginSuccess(false), 4000);
+            setLoginSuccess(true); // show success
 
             console.log(response.data);
 
-            // Navigate to dashboard
-            window.location.href = "/dashboard";
+            // ⏳ Wait 3 seconds → hide message → redirect
+            setTimeout(() => {
+                setLoginSuccess(false);
+                window.location.href = "/dashboard";
+            }, 1500);
+
         } catch (error) {
             if (error.response && error.response.data) {
                 alert(error.response.data.message); // e.g. "User already exists"
@@ -77,9 +83,11 @@ export const Signup = () => {
 
     const handleLoginSuccess = async (credentialResponse) => {
         try {
+            // ✅ Decode Google JWT to get user info (email, name, etc.)
             const decoded = jwtDecode(credentialResponse.credential);
-            console.log("User Info:", decoded);
+            console.log("Google User Info:", decoded);
 
+            // ✅ Send token to backend for verification and DB handling
             const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -89,24 +97,29 @@ export const Signup = () => {
             const data = await res.json();
             console.log("Backend Response:", data);
 
-            if (data.token && data.user) {
+            if (res.ok && data.token && data.user) {
                 // ✅ Save token + user in sessionStorage
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("user", JSON.stringify(data.user));
 
-                setLoginSuccessTwo(true);
-                setTimeout(() => setLoginSuccessTwo(false), 4000);
+                // ✅ Show success message
+                setLoginSuccess(true);
 
-                // Redirect to dashboard
-                window.location.href = "/dashboard";
+                // ✅ Redirect after delay
+                setTimeout(() => {
+                    setLoginSuccess(false);
+                    window.location.href = "/dashboard";
+                }, 1500);
             } else {
-                alert("Google login failed. Please try again.");
+                // Backend returned an error (e.g., missing token/user)
+                alert(data.message || "Google login failed. Please try again.");
             }
         } catch (err) {
-            console.error(err);
+            console.error("Google login error:", err);
             alert("Something went wrong with Google login.");
         }
     };
+
 
     const handleLoginError = () => {
         console.log("Google Login Failed")

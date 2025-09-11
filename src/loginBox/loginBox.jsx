@@ -32,36 +32,46 @@ export const Login = () => {
         setLoading(true);
         e.preventDefault();
         const userData = { email, password };
+
         try {
-            const response = await axios.post('https://makaan-real-estate.onrender.com/api/users/login', userData);
-            // alert(response.data.message);
+            const response = await axios.post(
+                'https://makaan-real-estate.onrender.com/api/users/login',
+                userData
+            );
+
             console.log('JWT Token:', response.data.token);
             sessionStorage.setItem('token', response.data.token);
             sessionStorage.setItem("user", JSON.stringify(response.data.user));
-            setLoginSuccess(true);
 
+            // Show success message
+            setLoginSuccess(true);
+            console.log("User from backend:", response.data.user);
+
+            // Wait 4 seconds, then hide the message and redirect
             setTimeout(() => {
-                setLoginSuccess(false)
-            }, 4000);
-            window.location.href = "/dashboard";
+                setLoginSuccess(false);
+                window.location.href = "/dashboard";
+            }, 1500);
+
         } catch (error) {
-            // alert(error.response?.data?.message || 'Something went wrong');
-            console.error(error);
-        }
-        finally {
+            console.error(error.response?.data?.message || 'Something went wrong');
+        } finally {
             setEmail("");
             setPassword("");
             setLoading(false);
         }
     };
 
+
     const clientId = "110792969621-2dqqu6j4lqiil510id88cc1oaairv72r.apps.googleusercontent.com"; // Replace with your actual client ID
 
     const handleLoginSuccess = async (credentialResponse) => {
         try {
-            const decoded = jwtDecode(credentialResponse.credential);             
-            console.log("User Info:", decoded);
+            // ✅ Decode Google JWT to get user info (email, name, etc.)
+            const decoded = jwtDecode(credentialResponse.credential);
+            console.log("Google User Info:", decoded);
 
+            // ✅ Send token to backend for verification and DB handling
             const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -71,21 +81,27 @@ export const Login = () => {
             const data = await res.json();
             console.log("Backend Response:", data);
 
-            if (data.token && data.user) {
+            if (res.ok && data.token && data.user) {
                 // ✅ Save token + user in sessionStorage
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("user", JSON.stringify(data.user));
 
+                // ✅ Show success message
                 setLoginSuccess(true);
-                setTimeout(() => setLoginSuccess(false), 4000);
+                console.log("User from backend:", data.user);
 
-                // Redirect to dashboard
-                window.location.href = "/dashboard";
+
+                // ✅ Redirect after delay
+                setTimeout(() => {
+                    setLoginSuccess(false);
+                    window.location.href = "/dashboard";
+                }, 1500);
             } else {
-                alert("Google login failed. Please try again.");
+                // Backend returned an error (e.g., missing token/user)
+                alert(data.message || "Google login failed. Please try again.");
             }
         } catch (err) {
-            console.error(err);
+            console.error("Google login error:", err);
             alert("Something went wrong with Google login.");
         }
     };
