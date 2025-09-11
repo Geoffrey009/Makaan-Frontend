@@ -137,7 +137,7 @@
 .propertyBox a:hover {
     width: 230px !important;
     height: 30px !important;
-    background-color: #66656533;
+    color: #00B98E;
 }
 
 .dropdownIcon {
@@ -155,7 +155,7 @@
 .pagesBox a:hover {
     width: 230px !important;
     height: 30px !important;
-    background-color: #66656533;
+    color: #00B98E;
 }
 
 /* Wrapper around nav link + dropdown */
