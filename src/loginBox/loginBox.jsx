@@ -1,6 +1,7 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { FaEye, FaEyeSlash, FaCheckCircle, FaSpinner } from "react-icons/fa";
@@ -65,6 +66,9 @@ export const Login = () => {
 
     const clientId = "110792969621-2dqqu6j4lqiil510id88cc1oaairv72r.apps.googleusercontent.com"; // Replace with your actual client ID
 
+    // Inside your component
+    const navigate = useNavigate();
+
     const handleLoginSuccess = async (credentialResponse) => {
         try {
             // ✅ Decode Google JWT to get user info (email, name, etc.)
@@ -82,20 +86,17 @@ export const Login = () => {
             console.log("Backend Response:", data);
 
             if (res.ok && data.token && data.user) {
-                // ✅ Save token + user in sessionStorage
-                sessionStorage.setItem("token", data.token);
-                sessionStorage.setItem("user", JSON.stringify(data.user));
+                // ✅ Save token + user in localStorage (persists across tabs and reloads)
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("user", JSON.stringify(data.user));
 
                 // ✅ Show success message
                 setLoginSuccess(true);
                 console.log("User from backend:", data.user);
 
-
-                // ✅ Redirect after delay
-                setTimeout(() => {
-                    setLoginSuccess(false);
-                    window.location.href = "/dashboard";
-                }, 1500);
+                // ✅ Redirect immediately using React Router
+                setLoginSuccess(false);  // hide success message
+                navigate("/dashboard");
             } else {
                 // Backend returned an error (e.g., missing token/user)
                 alert(data.message || "Google login failed. Please try again.");
@@ -105,6 +106,7 @@ export const Login = () => {
             alert("Something went wrong with Google login.");
         }
     };
+
 
     const handleLoginError = () => {
         console.log("Google Login Failed");
