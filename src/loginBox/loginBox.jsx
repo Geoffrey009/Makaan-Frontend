@@ -173,9 +173,15 @@ export const Login = () => {
 
                     <GoogleOAuthProvider clientId={clientId}>
                         <div className="google-auth">
-                            <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
+                            <GoogleLogin
+                                onSuccess={handleLoginSuccess}
+                                onError={handleLoginError}
+                                useOneTap={false}           // disables the automatic account suggestion popup
+                                text="signin_with"           // forces standard "Sign in with Google" text
+                            />
                         </div>
                     </GoogleOAuthProvider>
+
                 </form>
             </div>
 
