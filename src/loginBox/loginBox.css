@@ -223,13 +223,13 @@ a {
 }
 
 .google-auth {
-    max-width: 100%; /* desired width */
+    max-width: 700px; /* desired width */
     margin: .5rem auto;   /* center horizontally */
 }
 
 .google-auth button {
     width: 100%;      /* button fills parent */
-    max-width: 300px; /* optional: limit max width */
+    max-width: 100%; /* optional: limit max width */
 }
 
 
