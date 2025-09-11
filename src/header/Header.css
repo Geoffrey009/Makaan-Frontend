@@ -54,7 +54,7 @@
 }
 
 .title {
-    color: #00B98E;
+    color: #0E2E50;
     font-weight: 700;
     font-size: 40px;
     line-height: 40px;
@@ -86,12 +86,12 @@
 }
 
 .property:hover, .pages:hover {
-    color: #00B98E;
+    color: #0E2E50;
 }
 
 .addProperty {
-    background-color: #00B98E;
-    border: #00B98E;
+    background-color: #0E2E50;
+    border: #0E2E50;
     color: white;
     width: 130px;
     height: 35px;
@@ -99,10 +99,33 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.addProperty:hover {
-    background-color: #0E2E50;
+.addProperty::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0; /* start invisible */
+    background-color: #00B98E;
+    z-index: 0;
+    transition: width 0.4s ease; /* animate width */
+}
+
+.addProperty:hover::before {
+    width: 100%; /* full width on hover */
+}
+
+/* Keep text above the sliding background */
+.addProperty span {
+    position: relative;
+    z-index: 1;
 }
 
 .propertyBox a {
@@ -171,6 +194,6 @@
 }
 
 .active-link {
-  color: #00B98E !important; /* force red color for active link */
+  color:#00B98E !important; /* force red color for active link */
 }
 

@@ -124,7 +124,7 @@ export const Footer = () => {
 
                 <div className="last">
                     <div className="last-one">
-                        <p><span>©</span> <a href="#header">Makaan,</a> <span>All Right Reserved. Designed By <a href="">Geoffrey Amewhule</a></span></p>
+                        <p><span>©</span> <a href="#header">JeffHomes,</a> <span>All Right Reserved. Designed By <a href="">Geoffrey Amewhule</a></span></p>
                     </div>
 
                     <div className="last-two">

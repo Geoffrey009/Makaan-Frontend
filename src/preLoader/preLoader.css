@@ -1,0 +1,55 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  z-index: 9999;
+}
+
+.center-logo {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.dots {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: rotate 4s linear infinite;
+}
+
+.dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #00B98E;
+  border-radius: 50%;
+  transform: rotate(calc(var(--i) * 45deg)) translate(60px); /* already at final orbit */
+  animation: pulse 2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.15s); /* stagger for natural effect */
+  z-index: 1;
+}
+
+/* Pulse only: scale in/out at orbit, no initial gradual translation */
+@keyframes pulse {
+  0%, 100% {
+    transform: rotate(calc(var(--i) * 45deg)) translate(60px) scale(0.7);
+    opacity: 0.3;
+  }
+  50% {
+    transform: rotate(calc(var(--i) * 45deg)) translate(60px) scale(1.3);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -267,6 +267,7 @@ a {
   gap: 8px;
   justify-self: center;
   justify-content: center;
+  cursor: not-allowed;
 }
 
 .spinner {

@@ -130,7 +130,7 @@ export const PropertyOne = () => {
                         <p>Clita duo justo magna dolore erat amet</p>
                     </div>
 
-                    <button className="readMore">Read More</button>
+                    <button className="readMore"><span>Read More</span></button>
                 </div>
             </div>
         </>

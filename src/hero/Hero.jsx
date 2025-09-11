@@ -59,7 +59,7 @@ export const Hero = () => {
                         Discover your dream home today. We make it simple <br /> to find the perfect place where comfort, <br /> style, and family come together!
                     </p>
                     <NavLink to="/getStarted">
-                        <button className="start">Get Started</button>
+                        <button className="start"><span>Get Started</span></button>
                     </NavLink>
                 </div>
 

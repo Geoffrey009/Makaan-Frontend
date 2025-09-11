@@ -46,7 +46,7 @@ export const Header = () => {
                 <div className="icon">
                     <img src={makaanLogo} alt="makaanLogo" className="logo" />
                 </div>
-                <h1 className="title">Makaan</h1>
+                <h1 className="title">JeffHomes</h1>
             </div>
 
             <div className="navlinks">
@@ -94,7 +94,7 @@ export const Header = () => {
                     )}
 
                     <NavLink to="/addProperty" className={({ isActive }) => (isActive ? "active-link" : "")}>
-                        <button className="addProperty">Add Property</button>
+                        <button className="addProperty"><span>Add Property</span></button>
                     </NavLink>
                 </nav>
             </div>

@@ -3,7 +3,7 @@
     height: 100vh;
     position: absolute;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 47% 53%;
 }
 
 .leftHero {
@@ -21,15 +21,43 @@
 
 
 .leftHero .start {
+    position: relative; /* important for pseudo-element positioning */
+    overflow: hidden;   /* so the sliding background doesn't spill out */
     width: 160px;
     height: 60px;
-    background-color: #00B98E;
+    background-color: #0E2E50;
     color: white;
     border-radius: 5px;
-    border: #00B98E;
+    border: #0E2E50;
     font-size: 16px;
     cursor: pointer;
-    animation: slideLeft 2s ease;
+    transition: color 0.4s ease; /* for smooth text color change */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Create sliding background */
+.leftHero .start::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0; /* start invisible */
+    background-color: #00B98E;
+    z-index: 0;
+    transition: width 0.4s ease; /* animate width */
+}
+
+/* On hover, expand background */
+.leftHero .start:hover::before {
+    width: 100%; /* full width on hover */
+}
+
+.leftHero .start span {
+    position: relative;
+    z-index: 1;
 }
 
 .intro {
@@ -41,7 +69,7 @@
 
 .rightHero {
     width: 100%;
-    background-color: black;
+    background-color: transparent;
 }
 
 .leftRightIcons {
@@ -53,42 +81,84 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #00B98E;
+    background-color: #0E2E50;
+    display: flex; /* needed so align-items/justify-content work */
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    margin-left: 100px;
     position: relative;
     cursor: pointer;
+    overflow: hidden; /* keep the sliding background inside the circle */
     transition: background-color 0.4s ease;
+    z-index: 1;
 }
 
-.leftIcon {
+/* Sliding background */
+.leftIconCover::before {
+    content: "";
     position: absolute;
-    top: 15px;
-    left: 15px;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 0; /* starts collapsed */
+    background-color: #00B98E;
+    border-radius: 50%; /* keep circular shape */
+    transition: width 0.4s ease;
+    z-index: 0;
 }
+
+.leftIconCover:hover::before {
+    width: 100%; /* slides across the circle */
+}
+
+/* Make sure icon stays above */
+.leftIcon {
+    position: relative;
+    z-index: 1;
+}
+
 
 .rightIconCover {
     position: relative;
+    display: flex;
+    overflow: hidden; /* keep the sliding effect inside the circle */
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #00B98E;
+    background-color: #0E2E50;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.4s ease;
+    margin-left: 75px;
+    z-index: 1;
 }
 
-.rightIcon {
+/* Sliding background */
+.rightIconCover::before {
+    content: "";
     position: absolute;
-    top: 15px;
-    left: 15px;
+    top: 0;
+    left: 0; 
+    height: 100%;
+    width: 0; /* collapsed initially */
+    background-color: #00B98E;
+    border-radius: 50%; /* keeps circular shape */
+    transition: width 0.4s ease;
+    z-index: 0;
 }
 
-.leftIconCover:hover, .rightIconCover:hover {
-    background-color: #0E2E50;
+.rightIconCover:hover::before {
+    width: 100%; /* slides in fully */
 }
+
+/* Keep icon above background */
+.rightIcon {
+    position: relative;
+    z-index: 1;
+}
+
 
 .heroImage {
     width: 100%;
@@ -96,12 +166,13 @@
     background-size: cover;
     background-position: center;
     margin-top: -65vh;
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .search {
     width: 100%;
     height: 130px;
-    background-color: #00B98E;
+    background-color: #0E2E50;
     position: relative;
     top: 99.9vh;
     padding: 35px 70px;
@@ -140,7 +211,7 @@
 .searchBtn {
     width: 180px;
     height: 60px;
-    background-color: #0E2E50;
+    background-color: #00B98E;
     color: white;
     border-radius: 5px;
     border: #00B98E;
@@ -152,7 +223,7 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background-color: #00B98E;
+    background-color: #0E2E50;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -161,20 +232,37 @@
     cursor: pointer;
     display: none;
     z-index: 9999;
-    transition: background-color 0.5s ease;
+    overflow: hidden; /* make sure background stays inside circle */
 }
 
+/* Sliding background */
+.scrollUp::before {
+    content: "";
+    position: absolute;
+    bottom: 0;   /* anchor at the bottom */
+    left: 0;
+    width: 100%; /* full width from the start */
+    height: 0;   /* collapsed at the bottom */
+    background-color: #00B98E;
+    border-radius: 50%;
+    transition: height 0.5s ease;
+    z-index: 0;
+}
+
+.scrollUp:hover::before {
+    height: 100%; /* grows upward to fill circle */
+}
+
+/* Icon stays above sliding background */
 .upIcon {
+    position: relative;
     margin-top: 7.5px;
     margin-left: 8px;
+    z-index: 1;
 }
 
 .scrollUp.scrolled {
     display: block;
-}
-
-.scrollUp:hover {
-    background-color: #0E2E50;
 }
 
 @keyframes slideDown {

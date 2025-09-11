@@ -55,7 +55,7 @@
 
 .type:hover {
     .typeMainOne, .typeMainTwo, .typeMainThree, .typeMainFour, .typeMainFive, .typeMainSix, .typeMainSeven, .typeMainEight {
-        background-color: #00B98E;
+        background-color: #0E2E50;
     }
 
     .iconName {
@@ -93,7 +93,7 @@
 
 .number {
     text-align: center;
-    color: #00B98E;
+    color: #0E2E50;
     transition: color 0.5s ease;
 }
 
@@ -133,7 +133,7 @@
 .bg-shape {
     width: 300px; /* adjust width */
     height: 100%;
-    background-color: #00B98E;
+    background-color: #0E2E50;
     clip-path: polygon(0 0, 170px 0, 100% 100%, 0% 100%);
     position: relative;
 }
@@ -179,15 +179,39 @@
 .readMore {
     width: 180px;
     height: 60px;
-    background-color: #00B98E;
+    background-color: #0E2E50;
     color: white;
     border-radius: 5px;
-    border: #00B98E;
+    border: none;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.readMore:hover {
-    background-color: #0E2E50;
+.readMore::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0; /* start invisible */
+    background-color: #00B98E;
+    z-index: 0;
+    transition: width 0.4s ease; /* animate width */
+}
+
+/* On hover, expand background */
+.readMore:hover::before {
+    width: 100%; /* full width on hover */
+}
+
+/* Keep text above the sliding background */
+.readMore span {
+    position: relative;
+    z-index: 1;
 }
