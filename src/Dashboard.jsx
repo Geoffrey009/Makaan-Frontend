@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Header } from "./header/Header";
 import defaultProfilePicture from "./assets/profile-default-svgrepo-com.svg"
+import makaanHero from "../assets/makaanHero.jpg";
 import axios from "axios";
 
 export const Dashboard = () => {
@@ -115,7 +116,7 @@ export const Dashboard = () => {
 
               ) : (
                 <img
-                  src={defaultProfilePicture}
+                  src={makaanHero}
                   alt="Profile"
                   style={{
                     width: "120px",
