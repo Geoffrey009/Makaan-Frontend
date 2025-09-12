@@ -116,7 +116,7 @@ export const Dashboard = () => {
 
               ) : (
                 <img
-                  src={makaanHero}
+                  src={defaultProfilePicture}
                   alt="Profile"
                   style={{
                     width: "120px",
