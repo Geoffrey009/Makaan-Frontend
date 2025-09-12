@@ -125,6 +125,46 @@ export const Signup = () => {
         console.log("Google Login Failed")
     };
 
+    // ✅ Access Token based Google login
+    const login = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                // 🔑 tokenResponse contains access_token
+                console.log("Google Access Token:", tokenResponse.access_token);
+
+                // ✅ Send access_token to backend
+                const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ access_token: tokenResponse.access_token }),
+                });
+
+                const data = await res.json();
+                console.log("Backend Response:", data);
+
+                if (res.ok && data.token && data.user) {
+                    sessionStorage.setItem("token", data.token);
+                    sessionStorage.setItem("user", JSON.stringify(data.user));
+                    setLoginSuccess(true);
+
+                    setTimeout(() => {
+                        setLoginSuccess(false);
+                        window.location.href = "/dashboard";
+                    }, 1500);
+                } else {
+                    alert(data.message || "Google login failed. Please try again.");
+                }
+            } catch (err) {
+                console.error("Google login error:", err);
+                alert("Something went wrong with Google login.");
+            }
+        },
+        onError: () => {
+            alert("Google Login Failed");
+        },
+    });
+
+
     return (
         <div className='signup-box'>
 
@@ -196,9 +236,17 @@ export const Signup = () => {
 
                     <GoogleOAuthProvider clientId={clientId}>
                         <div className="google-auth">
-                            <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
+                            <button
+                                className="google-btn"
+                                onClick={() =>
+                                    login() // call the hook when user clicks button
+                                }
+                            >
+                                Sign in with Google
+                            </button>
                         </div>
                     </GoogleOAuthProvider>
+
                 </form>
             </aside>
 
