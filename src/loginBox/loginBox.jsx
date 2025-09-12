@@ -79,9 +79,12 @@ export const Login = () => {
             // ✅ Send token to backend for verification and DB handling
             const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
                 method: "POST",
+                mode: "cors",               // ✅ allow cross-origin requests
+                credentials: "include",     // ✅ send cookies if backend uses them
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token: credentialResponse.credential }),
             });
+
 
             const data = await res.json();
             console.log("Backend Response:", data);
@@ -125,9 +128,12 @@ export const Login = () => {
                 // ✅ Send access_token to backend
                 const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
                     method: "POST",
+                    mode: "cors",               // ✅ allow cross-origin requests
+                    credentials: "include",     // ✅ send cookies if backend uses them
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ access_token: tokenResponse.access_token }),
+                    body: JSON.stringify({ token: credentialResponse.credential }),
                 });
+
 
                 const data = await res.json();
                 console.log("Backend Response:", data);

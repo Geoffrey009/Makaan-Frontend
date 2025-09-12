@@ -87,12 +87,14 @@ export const Signup = () => {
             const decoded = jwtDecode(credentialResponse.credential);
             console.log("Google User Info:", decoded);
 
-            // ✅ Send token to backend for verification and DB handling
             const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
                 method: "POST",
+                mode: "cors",               // ✅ allow cross-origin requests
+                credentials: "include",     // ✅ send cookies if backend uses them
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token: credentialResponse.credential }),
             });
+
 
             const data = await res.json();
             console.log("Backend Response:", data);
@@ -133,11 +135,20 @@ export const Signup = () => {
                 console.log("Google Access Token:", tokenResponse.access_token);
 
                 // ✅ Send access_token to backend
+                // const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
+                //     method: "POST",
+                //     headers: { "Content-Type": "application/json" },
+                //     body: JSON.stringify({ access_token: tokenResponse.access_token }),
+                // });
+
                 const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
                     method: "POST",
+                    mode: "cors",               // ✅ allow cross-origin requests
+                    credentials: "include",     // ✅ send cookies if backend uses them
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ access_token: tokenResponse.access_token }),
                 });
+
 
                 const data = await res.json();
                 console.log("Backend Response:", data);
