@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Header } from "./header/Header";
-import defaultProfilePicture from "./assets/profile-default-svgrepo-com.svg"
-import makaanHero from "./assets/makaanHero.jpg";
+import defaultProfilePicture from "./assets/profile-default-svgrepo-com.svg";
 import axios from "axios";
+import { io } from "socket.io-client";
+
+// ⚡ Connect Socket.IO client
+const socket = io("https://makaan-real-estate.onrender.com"); // replace with your deployed backend
 
 export const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -12,6 +15,7 @@ export const Dashboard = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
+  // 🔹 Load user from sessionStorage on mount
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
@@ -27,12 +31,40 @@ export const Dashboard = () => {
     }
   }, []);
 
-  // ✅ Handle file selection
+  // 🔹 Listen for real-time updates via Socket.IO
+  useEffect(() => {
+    if (!user) return;
+
+    // 1️⃣ Profile picture updates
+    socket.on(`updateProfilePicture-${user._id}`, (newImageUrl) => {
+      console.log("Real-time profile picture update received:", newImageUrl);
+      setUser((prev) => ({ ...prev, profilePicture: newImageUrl }));
+      const updatedUser = { ...user, profilePicture: newImageUrl };
+      sessionStorage.setItem("user", JSON.stringify(updatedUser));
+    });
+
+    // 2️⃣ Total users updates (admin only)
+    socket.on("totalUsersUpdated", (newTotal) => {
+      if (user.isAdmin) setTotalUsers(newTotal);
+    });
+
+    // 3️⃣ Any other real-time events (cart, orders, notifications)
+    // Example: socket.on(`cartUpdated-${user._id}`, (cartData) => { ... });
+
+    return () => {
+      // Clean up all listeners
+      socket.off(`updateProfilePicture-${user._id}`);
+      socket.off("totalUsersUpdated");
+      // socket.off(`cartUpdated-${user._id}`);
+    };
+  }, [user]);
+
+  // 🔹 Handle file selection
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
-  // ✅ Upload profile picture
+  // 🔹 Upload profile picture
   const handleUpload = async () => {
     if (!selectedFile) {
       alert("Please select an image first.");
@@ -43,7 +75,7 @@ export const Dashboard = () => {
       setUploading(true);
 
       const formData = new FormData();
-      formData.append("profilePicture", selectedFile); // ⚡ must match backend field name
+      formData.append("profilePicture", selectedFile);
 
       const token = sessionStorage.getItem("token");
 
@@ -59,27 +91,37 @@ export const Dashboard = () => {
       );
 
       if (res.data.imageUrl) {
-        // ✅ Update user in sessionStorage with new picture
+        // 1️⃣ Update local state and sessionStorage
         const updatedUser = { ...user, profilePicture: res.data.imageUrl };
-        sessionStorage.setItem("user", JSON.stringify(updatedUser));
         setUser(updatedUser);
+        sessionStorage.setItem("user", JSON.stringify(updatedUser));
+
+        // 2️⃣ Notify other devices via Socket.IO
+        socket.emit("profilePictureUpdated", {
+          userId: user._id,
+          imageUrl: res.data.imageUrl,
+        });
+
         alert("Profile picture updated!");
       }
     } catch (err) {
       console.error("Upload failed:", err);
-      const msg =
-        err.response?.data?.message || "Failed to upload image. Try again.";
-      alert(msg);
+      alert(
+        err.response?.data?.message || "Failed to upload image. Try again."
+      );
     } finally {
       setUploading(false);
       setSelectedFile(null);
     }
   };
 
+  // 🔹 Search users
   const handleSearch = async () => {
     if (!query) return;
     try {
-      const res = await fetch(`https://makaan-real-estate.onrender.com/api/users/search?name=${query}`);
+      const res = await fetch(
+        `https://makaan-real-estate.onrender.com/api/users/search?name=${query}`
+      );
       const data = await res.json();
       setResults(data.users);
     } catch (err) {
@@ -100,35 +142,21 @@ export const Dashboard = () => {
               {user.isAdmin ? "(Admin)" : ""} 👋
             </h2>
 
-            {/* ✅ Profile Picture Section */}
+            {/* Profile Picture */}
             <div style={{ marginTop: "15px" }}>
-              {user?.profilePicture ? (
-                <img
-                  src={user?.profilePicture}
-                  alt="Profile"
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
-
-              ) : (
-                <img
-                  src={defaultProfilePicture}
-                  alt="Profile"
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
-              )}
+              <img
+                src={user.profilePicture || defaultProfilePicture}
+                alt="Profile"
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
             </div>
 
-            {/* ✅ File input + Upload button */}
+            {/* File input + Upload */}
             <div style={{ marginTop: "20px" }}>
               <input type="file" accept="image/*" onChange={handleFileChange} />
               <button onClick={handleUpload} disabled={uploading}>
@@ -144,6 +172,7 @@ export const Dashboard = () => {
           <p>Total registered users: {totalUsers}</p>
         )}
 
+        {/* Search */}
         <input
           type="text"
           placeholder="Search by full name"
@@ -155,7 +184,11 @@ export const Dashboard = () => {
         <div>
           {results.map((user) => (
             <div key={user._id}>
-              <img src={user.profilePic || "/default.png"} alt={user.fullName} width={50} />
+              <img
+                src={user.profilePic || "/default.png"}
+                alt={user.fullName}
+                width={50}
+              />
               <span>{user.fullName}</span>
             </div>
           ))}
