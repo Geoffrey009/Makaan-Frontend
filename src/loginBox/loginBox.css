@@ -40,7 +40,7 @@
     animation: slideInRight 3s ease;
     /* z-index: 99; */
     /* ensure it sits above overlay */
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
 .login-box-main * {
