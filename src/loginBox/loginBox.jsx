@@ -54,7 +54,7 @@ export const Login = () => {
             }, 1500);
 
         } catch (error) {
-            console.error(error.response?.data?.message || 'Something went wrong');
+            alert(error.response?.data?.message || 'Something went wrong');
         } finally {
             setEmail("");
             setPassword("");
@@ -101,13 +101,13 @@ export const Login = () => {
                 alert(data.message || "Google login failed. Please try again.");
             }
         } catch (err) {
-            console.error("Google login error:", err);
-            alert("Something went wrong with Google login.");
+            console.log("Google login error:", err);
+            console.log("Something went wrong with Google login.");
         }
     };
 
     const handleLoginError = () => {
-        console.log("Google Login Failed");
+        alert("Google Login Failed");
     };
 
     return (
