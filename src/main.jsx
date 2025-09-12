@@ -10,6 +10,13 @@ import { Dashboard } from "./Dashboard";
 import { Preloader } from "./preLoader/preLoader";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
+// ✅ import GoogleOAuthProvider
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+// ✅ put your actual clientId here
+const clientId =
+  "110792969621-2dqqu6j4lqiil510id88cc1oaairv72r.apps.googleusercontent.com";
+
 function AppContent() {
   const location = useLocation(); // detect current route
   const [loading, setLoading] = useState(true);
@@ -52,6 +59,9 @@ function AppWrapper() {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AppWrapper />
+    {/* ✅ Wrap your whole app once with GoogleOAuthProvider */}
+    <GoogleOAuthProvider clientId={clientId}>
+      <AppWrapper />
+    </GoogleOAuthProvider>
   </StrictMode>
 );

@@ -1,4 +1,4 @@
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -234,18 +234,16 @@ export const Signup = () => {
                         <hr className="line-two" />
                     </div>
 
-                    <GoogleOAuthProvider clientId={clientId}>
-                        <div className="google-auth">
-                            <button
-                                className="google-btn"
-                                onClick={() =>
-                                    login() // call the hook when user clicks button
-                                }
-                            >
-                                Sign in with Google
-                            </button>
-                        </div>
-                    </GoogleOAuthProvider>
+                    <div className="google-auth">
+                        <button
+                            className="google-btn"
+                            onClick={() =>
+                                login() // call the hook when user clicks button
+                            }
+                        >
+                            Sign in with Google
+                        </button>
+                    </div>
 
                 </form>
             </aside>
