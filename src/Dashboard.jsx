@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Header } from "./header/Header";
 import defaultProfilePicture from "./assets/profile-default-svgrepo-com.svg"
-import makaanHero from "../assets/makaanHero.jpg";
+import makaanHero from "./assets/makaanHero.jpg";
 import axios from "axios";
 
 export const Dashboard = () => {

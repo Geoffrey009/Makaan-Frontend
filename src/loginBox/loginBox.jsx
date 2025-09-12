@@ -54,7 +54,12 @@ export const Login = () => {
             }, 1500);
 
         } catch (error) {
-            alert(error.response?.data?.message || 'Something went wrong');
+            if (error.response && error.response.data) {
+                alert(error.response.data.message); // e.g. "User already exists"
+            } else {
+                alert("Something went wrong");
+            }
+            console.error(error);
         } finally {
             setEmail("");
             setPassword("");
