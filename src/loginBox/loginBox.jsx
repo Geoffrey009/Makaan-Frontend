@@ -177,15 +177,20 @@ export const Login = () => {
                     </div>
 
                     <GoogleOAuthProvider clientId={clientId}>
-                        <div className="google-auth">
+                        <div className="google-auth" style={{ width: "100%" }}>
                             <GoogleLogin
                                 onSuccess={handleLoginSuccess}
                                 onError={handleLoginError}
-                                useOneTap={false}           // disables the automatic account suggestion popup
-                                text="signin_with"           // forces standard "Sign in with Google" text
+                                useOneTap={false}
+                                text="signin_with"
+                                theme="outline"
+                                size="large"
+                                shape="rectangular"
+                                width="100%"
                             />
                         </div>
                     </GoogleOAuthProvider>
+
 
                 </form>
             </div>
