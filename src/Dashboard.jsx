@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Header } from "./header/Header";
 import defaultProfilePicture from "./assets/profile-default-svgrepo-com.svg";
 import axios from "axios";
 import { io } from "socket.io-client";
-
-// ⚡ Connect Socket.IO client with userId room support
-let socket;
 
 export const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -15,66 +12,72 @@ export const Dashboard = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
-  // 🔹 Load user from sessionStorage on mount
+  const socketRef = useRef(null); // ✅ Stable socket reference
+
+  // Load user and initialize socket
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
+    if (!storedUser) return;
 
-      // Initialize socket connection AFTER user is known
-      socket = io("https://makaan-real-estate.onrender.com", {
-        query: { userId: parsedUser._id },
-      });
+    const parsedUser = JSON.parse(storedUser);
+    setUser(parsedUser);
 
-      // Admin: fetch total users
-      if (parsedUser.isAdmin) {
-        axios
-          .get("https://makaan-real-estate.onrender.com/api/users/count")
-          .then((res) => setTotalUsers(res.data.totalUsers))
-          .catch((err) => console.error("Error fetching total users:", err));
-      }
+    // Initialize socket connection
+    socketRef.current = io("https://makaan-real-estate.onrender.com", {
+      query: { userId: parsedUser._id },
+    });
+
+    // Admin: fetch total users
+    if (parsedUser.isAdmin) {
+      axios
+        .get("https://makaan-real-estate.onrender.com/api/users/count")
+        .then((res) => setTotalUsers(res.data.totalUsers))
+        .catch((err) => console.error("Error fetching total users:", err));
     }
+
+    return () => {
+      socketRef.current?.disconnect();
+    };
   }, []);
 
-  // 🔹 Real-time listeners
+  // Real-time listeners
   useEffect(() => {
-    if (!user || !socket) return;
+    if (!user || !socketRef.current) return;
+
+    const socket = socketRef.current;
 
     // Profile picture updates
     const profileHandler = (newImageUrl) => {
-      console.log("Profile picture updated in real-time:", newImageUrl);
       const updatedUser = { ...user, profilePicture: newImageUrl };
       setUser(updatedUser);
       sessionStorage.setItem("user", JSON.stringify(updatedUser));
     };
     socket.on(`updateProfilePicture-${user._id}`, profileHandler);
 
-    // Total users update (for admin)
+    // Total users updates (for admin)
     const totalUsersHandler = (newTotal) => {
       if (user.isAdmin) setTotalUsers(newTotal);
     };
     socket.on("totalUsersUpdated", totalUsersHandler);
 
-    // Cleanup on unmount
     return () => {
       socket.off(`updateProfilePicture-${user._id}`, profileHandler);
       socket.off("totalUsersUpdated", totalUsersHandler);
     };
   }, [user]);
 
-  // 🔹 File selection
+  // Handle file selection
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
-  // 🔹 Upload profile picture
+  // Upload profile picture
   const handleUpload = async () => {
     if (!selectedFile) return alert("Please select an image first.");
+    if (!user) return alert("User not loaded.");
 
+    setUploading(true);
     try {
-      setUploading(true);
-
       const formData = new FormData();
       formData.append("profilePicture", selectedFile);
 
@@ -92,13 +95,12 @@ export const Dashboard = () => {
       );
 
       if (res.data.imageUrl) {
-        // Update local state and sessionStorage
         const updatedUser = { ...user, profilePicture: res.data.imageUrl };
         setUser(updatedUser);
         sessionStorage.setItem("user", JSON.stringify(updatedUser));
 
-        // Notify other devices in same room
-        socket.emit("profilePictureUpdated", {
+        // Emit to all devices of this user
+        socketRef.current?.emit("profilePictureUpdated", {
           userId: user._id,
           imageUrl: res.data.imageUrl,
         });
@@ -114,7 +116,7 @@ export const Dashboard = () => {
     }
   };
 
-  // 🔹 Search users
+  // Search users
   const handleSearch = async () => {
     if (!query) return;
     try {
@@ -140,21 +142,14 @@ export const Dashboard = () => {
               Hello {user.fullName || user.name} {user.isAdmin ? "(Admin)" : ""} 👋
             </h2>
 
-            {/* Profile Picture */}
             <div style={{ marginTop: "15px" }}>
               <img
                 src={user.profilePicture || defaultProfilePicture}
                 alt="Profile"
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
+                style={{ width: 120, height: 120, borderRadius: "50%", objectFit: "cover" }}
               />
             </div>
 
-            {/* File input + Upload */}
             <div style={{ marginTop: "20px" }}>
               <input type="file" accept="image/*" onChange={handleFileChange} />
               <button onClick={handleUpload} disabled={uploading}>
@@ -166,11 +161,8 @@ export const Dashboard = () => {
           <h2>Hello Guest</h2>
         )}
 
-        {user?.isAdmin && totalUsers !== null && (
-          <p>Total registered users: {totalUsers}</p>
-        )}
+        {user?.isAdmin && totalUsers !== null && <p>Total registered users: {totalUsers}</p>}
 
-        {/* Search */}
         <input
           type="text"
           placeholder="Search by full name"
@@ -180,14 +172,10 @@ export const Dashboard = () => {
         <button onClick={handleSearch}>Search</button>
 
         <div>
-          {results.map((user) => (
-            <div key={user._id}>
-              <img
-                src={user.profilePic || "/default.png"}
-                alt={user.fullName}
-                width={50}
-              />
-              <span>{user.fullName}</span>
+          {results.map((u) => (
+            <div key={u._id}>
+              <img src={u.profilePic || "/default.png"} alt={u.fullName} width={50} />
+              <span>{u.fullName}</span>
             </div>
           ))}
         </div>
