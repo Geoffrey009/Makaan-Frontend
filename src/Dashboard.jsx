@@ -4,8 +4,8 @@ import defaultProfilePicture from "./assets/profile-default-svgrepo-com.svg";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-// ⚡ Connect Socket.IO client
-const socket = io("https://makaan-real-estate.onrender.com"); // replace with your deployed backend
+// ⚡ Connect Socket.IO client with userId room support
+let socket;
 
 export const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -22,6 +22,12 @@ export const Dashboard = () => {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
 
+      // Initialize socket connection AFTER user is known
+      socket = io("https://makaan-real-estate.onrender.com", {
+        query: { userId: parsedUser._id },
+      });
+
+      // Admin: fetch total users
       if (parsedUser.isAdmin) {
         axios
           .get("https://makaan-real-estate.onrender.com/api/users/count")
@@ -31,45 +37,40 @@ export const Dashboard = () => {
     }
   }, []);
 
-  // 🔹 Listen for real-time updates via Socket.IO
+  // 🔹 Real-time listeners
   useEffect(() => {
-    if (!user) return;
+    if (!user || !socket) return;
 
-    // 1️⃣ Profile picture updates
-    socket.on(`updateProfilePicture-${user._id}`, (newImageUrl) => {
-      console.log("Real-time profile picture update received:", newImageUrl);
-      setUser((prev) => ({ ...prev, profilePicture: newImageUrl }));
+    // Profile picture updates
+    const profileHandler = (newImageUrl) => {
+      console.log("Profile picture updated in real-time:", newImageUrl);
       const updatedUser = { ...user, profilePicture: newImageUrl };
+      setUser(updatedUser);
       sessionStorage.setItem("user", JSON.stringify(updatedUser));
-    });
+    };
+    socket.on(`updateProfilePicture-${user._id}`, profileHandler);
 
-    // 2️⃣ Total users updates (admin only)
-    socket.on("totalUsersUpdated", (newTotal) => {
+    // Total users update (for admin)
+    const totalUsersHandler = (newTotal) => {
       if (user.isAdmin) setTotalUsers(newTotal);
-    });
+    };
+    socket.on("totalUsersUpdated", totalUsersHandler);
 
-    // 3️⃣ Any other real-time events (cart, orders, notifications)
-    // Example: socket.on(`cartUpdated-${user._id}`, (cartData) => { ... });
-
+    // Cleanup on unmount
     return () => {
-      // Clean up all listeners
-      socket.off(`updateProfilePicture-${user._id}`);
-      socket.off("totalUsersUpdated");
-      // socket.off(`cartUpdated-${user._id}`);
+      socket.off(`updateProfilePicture-${user._id}`, profileHandler);
+      socket.off("totalUsersUpdated", totalUsersHandler);
     };
   }, [user]);
 
-  // 🔹 Handle file selection
+  // 🔹 File selection
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
   // 🔹 Upload profile picture
   const handleUpload = async () => {
-    if (!selectedFile) {
-      alert("Please select an image first.");
-      return;
-    }
+    if (!selectedFile) return alert("Please select an image first.");
 
     try {
       setUploading(true);
@@ -91,12 +92,12 @@ export const Dashboard = () => {
       );
 
       if (res.data.imageUrl) {
-        // 1️⃣ Update local state and sessionStorage
+        // Update local state and sessionStorage
         const updatedUser = { ...user, profilePicture: res.data.imageUrl };
         setUser(updatedUser);
         sessionStorage.setItem("user", JSON.stringify(updatedUser));
 
-        // 2️⃣ Notify other devices via Socket.IO
+        // Notify other devices in same room
         socket.emit("profilePictureUpdated", {
           userId: user._id,
           imageUrl: res.data.imageUrl,
@@ -106,9 +107,7 @@ export const Dashboard = () => {
       }
     } catch (err) {
       console.error("Upload failed:", err);
-      alert(
-        err.response?.data?.message || "Failed to upload image. Try again."
-      );
+      alert(err.response?.data?.message || "Failed to upload image. Try again.");
     } finally {
       setUploading(false);
       setSelectedFile(null);
@@ -138,8 +137,7 @@ export const Dashboard = () => {
         {user ? (
           <>
             <h2>
-              Hello {user.fullName || user.name}{" "}
-              {user.isAdmin ? "(Admin)" : ""} 👋
+              Hello {user.fullName || user.name} {user.isAdmin ? "(Admin)" : ""} 👋
             </h2>
 
             {/* Profile Picture */}
