@@ -164,7 +164,7 @@ export const Login = () => {
                 {/* Google login button OUTSIDE the form */}
                 <div className="google-auth">
                     <button className="google-btn" type="button" onClick={() => login()}>
-                        Sign in with Google
+                        Sign in with Geoffrey
                     </button>
                 </div>
             </div>
