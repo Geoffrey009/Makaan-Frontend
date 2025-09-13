@@ -12,15 +12,33 @@ export const Dashboard = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
-  const socketRef = useRef(null); // ✅ Stable socket reference
+  const socketRef = useRef(null);
 
-  // Load user and initialize socket
+  // Load user, fetch latest from backend, and initialize socket
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
     if (!storedUser) return;
 
     const parsedUser = JSON.parse(storedUser);
-    setUser(parsedUser);
+
+    // ✅ Fetch the latest user data from backend
+    const fetchLatestUser = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const res = await axios.get(
+          `https://makaan-real-estate.onrender.com/api/users/${parsedUser._id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const latestUser = res.data;
+        setUser(latestUser);
+        sessionStorage.setItem("user", JSON.stringify(latestUser));
+      } catch (err) {
+        console.error("Failed to fetch latest user:", err);
+        setUser(parsedUser); // fallback to stored user
+      }
+    };
+
+    fetchLatestUser();
 
     // Initialize socket connection
     socketRef.current = io("https://makaan-real-estate.onrender.com", {
@@ -46,7 +64,6 @@ export const Dashboard = () => {
 
     const socket = socketRef.current;
 
-    // Profile picture updates
     const profileHandler = (newImageUrl) => {
       const updatedUser = { ...user, profilePicture: newImageUrl };
       setUser(updatedUser);
@@ -54,7 +71,6 @@ export const Dashboard = () => {
     };
     socket.on(`updateProfilePicture-${user._id}`, profileHandler);
 
-    // Total users updates (for admin)
     const totalUsersHandler = (newTotal) => {
       if (user.isAdmin) setTotalUsers(newTotal);
     };
@@ -66,12 +82,10 @@ export const Dashboard = () => {
     };
   }, [user]);
 
-  // Handle file selection
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
-  // Upload profile picture
   const handleUpload = async () => {
     if (!selectedFile) return alert("Please select an image first.");
     if (!user) return alert("User not loaded.");
@@ -80,18 +94,12 @@ export const Dashboard = () => {
     try {
       const formData = new FormData();
       formData.append("profilePicture", selectedFile);
-
       const token = sessionStorage.getItem("token");
 
       const res = await axios.post(
         "https://makaan-real-estate.onrender.com/api/users/upload-profile",
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` } }
       );
 
       if (res.data.imageUrl) {
@@ -99,7 +107,7 @@ export const Dashboard = () => {
         setUser(updatedUser);
         sessionStorage.setItem("user", JSON.stringify(updatedUser));
 
-        // Emit to all devices of this user
+        // Emit to all devices
         socketRef.current?.emit("profilePictureUpdated", {
           userId: user._id,
           imageUrl: res.data.imageUrl,
@@ -116,7 +124,6 @@ export const Dashboard = () => {
     }
   };
 
-  // Search users
   const handleSearch = async () => {
     if (!query) return;
     try {
