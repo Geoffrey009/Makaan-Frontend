@@ -31,8 +31,12 @@ export const Login = () => {
     // Normal email/password login
     const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        if (!email || !password) {
+            alert("All fields are required");
+            return;
+        }
 
+        setLoading(true);
         try {
             const res = await axios.post(
                 "https://makaan-real-estate.onrender.com/api/users/login",
@@ -57,7 +61,7 @@ export const Login = () => {
         }
     };
 
-    // ✅ Google login
+    // Google login
     const login = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             try {
@@ -68,7 +72,7 @@ export const Login = () => {
                     mode: "cors",
                     credentials: "include",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ token: tokenResponse.access_token }),
+                    body: JSON.stringify({ access_token: tokenResponse.access_token }),
                 });
 
                 const data = await res.json();
@@ -91,9 +95,7 @@ export const Login = () => {
                 alert("Something went wrong with Google login");
             }
         },
-        onError: () => {
-            alert("Google Login Failed");
-        },
+        onError: () => alert("Google Login Failed"),
     });
 
     return (
@@ -105,13 +107,14 @@ export const Login = () => {
                     style={{
                         backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${img})`,
                     }}
-                ></div>
+                />
             ))}
 
             <div className="login-box-main">
                 <h2 className="login-title">Welcome Back to Makaan!</h2>
                 <p className="login-desc">Login to your account to discover your next home</p>
 
+                {/* Only the normal login form */}
                 <form onSubmit={handleLogin}>
                     <p className="email-label">Email</p>
                     <input
@@ -157,9 +160,9 @@ export const Login = () => {
                         <p>OR</p>
                         <hr className="line-two" />
                     </div>
-
                 </form>
 
+                {/* Google login button OUTSIDE the form */}
                 <div className="google-auth">
                     <button className="google-btn" type="button" onClick={() => login()}>
                         Sign in with Google
