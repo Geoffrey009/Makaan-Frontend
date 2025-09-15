@@ -38,7 +38,7 @@ export const Login = () => {
         setLoading(true);
         try {
             const res = await axios.post(
-                "https://makaan-frontend.vercel.app/api/users/login",
+                "https://makaan-real-estate.onrender.com/api/users/login",
                 { email, password }
             );
 
@@ -66,7 +66,7 @@ export const Login = () => {
             try {
                 console.log("Google Access Token:", tokenResponse.access_token);
 
-                const res = await fetch("https://makaan-frontend.vercel.app/auth/google", {
+                const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
                     method: "POST",
                     mode: "cors",
                     credentials: "include",
