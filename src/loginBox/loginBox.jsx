@@ -38,7 +38,7 @@ export const Login = () => {
         setLoading(true);
         try {
             const res = await axios.post(
-                "https://makaan-real-estate.onrender.com/api/users/login",
+                "https://makaan-frontend.vercel.app/api/users/login",
                 { email, password }
             );
 
@@ -66,7 +66,7 @@ export const Login = () => {
             try {
                 console.log("Google Access Token:", tokenResponse.access_token);
 
-                const res = await fetch("https://makaan-real-estate.onrender.com/auth/google", {
+                const res = await fetch("https://makaan-frontend.vercel.app/auth/google", {
                     method: "POST",
                     mode: "cors",
                     credentials: "include",
@@ -164,7 +164,7 @@ export const Login = () => {
                 {/* Google login button OUTSIDE the form */}
                 <div className="google-auth">
                     <button className="google-btn" type="button" onClick={() => login()}>
-                        Sign in with Geoffrey
+                        Sign in with Google
                     </button>
                 </div>
             </div>
