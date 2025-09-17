@@ -138,6 +138,11 @@ export const Dashboard = () => {
     }
   };
 
+  const storedUserTwo = sessionStorage.getItem("user");
+  const parsedUserTwo = JSON.parse(storedUserTwo);
+
+  const isAdmin = parsedUserTwo.isAdmin;
+
   return (
     <>
       <Header />
@@ -171,22 +176,24 @@ export const Dashboard = () => {
 
         {user?.isAdmin && totalUsers !== null && <p>Total registered users: {totalUsers}</p>}
 
-        <input
-          type="text"
-          placeholder="Search by full name"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
+        {isAdmin && <div>
+          <input
+            type="text"
+            placeholder="Search by full name"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button onClick={handleSearch}>Search</button>
 
-        <div>
-          {results.map((u) => (
-            <div key={u._id}>
-              <img src={u.profilePicture || "/default.png"} alt={u.fullName} width={50} />
-              <span>{u.fullName}</span>
-            </div>
-          ))}
-        </div>
+          <div>
+            {results.map((u) => (
+              <div key={u._id}>
+                <img src={u.profilePicture || "/default.png"} alt={u.fullName} width={50} />
+                <span>{u.fullName}</span>
+              </div>
+            ))}
+          </div>
+        </div>}
       </div>
     </>
   );
