@@ -20,13 +20,14 @@ export const Dashboard = () => {
     if (!storedUser) return;
 
     const parsedUser = JSON.parse(storedUser);
+    const user_Id = parsedUser._id;
 
     // ✅ Fetch the latest user data from backend
     const fetchLatestUser = async () => {
       try {
         const token = sessionStorage.getItem("token");
         const res = await axios.get(
-          `https://makaan-real-estate.onrender.com/api/users/${parsedUser._id}`,
+          `https://makaan-real-estate.onrender.com/api/users/${user_Id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const latestUser = res.data;
@@ -42,7 +43,7 @@ export const Dashboard = () => {
 
     // Initialize socket connection
     socketRef.current = io("https://makaan-real-estate.onrender.com", {
-      query: { userId: parsedUser._id },
+      query: { userId: user_Id },
     });
 
     // Admin: fetch total users
