@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Header } from "./header/Header";
-import defaultProfilePicture from "./assets/profile-default-svgrepo-com.svg";
+import defaultProfilePicture from "./assets/no-picture.jpg";
 import axios from "axios";
 import { io } from "socket.io-client";
 
@@ -182,7 +182,7 @@ export const Dashboard = () => {
         <div>
           {results.map((u) => (
             <div key={u._id}>
-              <img src={u.profilePic || "/default.png"} alt={u.fullName} width={50} />
+              <img src={u.profilePicture || "/default.png"} alt={u.fullName} width={50} />
               <span>{u.fullName}</span>
             </div>
           ))}

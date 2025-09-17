@@ -163,7 +163,7 @@ export const Signup = () => {
           </div>
           <br />
 
-          <button className="signup-btn" type="submit" disabled={loading}>
+          <button className={`signup-btn ${loading ? "not-allowed" : ""}`} type="submit" disabled={loading}>
             {loading ? (
               <span className="spinner-text">
                 <FaSpinner className="spinner" /> Signing up...
