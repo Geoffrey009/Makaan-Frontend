@@ -169,7 +169,7 @@ export const Signup = () => {
                 <FaSpinner className="spinner" /> Signing up...
               </span>
             ) : (
-              "Sign Up"
+              <span>Sign Up</span>
             )}
           </button>
 

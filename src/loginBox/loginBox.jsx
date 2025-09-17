@@ -111,7 +111,7 @@ export const Login = () => {
 
             <div className="login-box-main">
                 <h2 className="login-title">Welcome Back to Makaan!</h2>
-                <p className="login-desc">Login to your account to discover your next home</p>
+                <p className="login-desc">Login to your account to discover your next home!</p>
 
                 {/* Only the normal login form */}
                 <form onSubmit={handleLogin}>
@@ -146,7 +146,7 @@ export const Login = () => {
                                 <FaSpinner className="spinner" /> Logging in...
                             </span>
                         ) : (
-                            "Log In"
+                            <span>Log In</span>
                         )}
                     </button>
 

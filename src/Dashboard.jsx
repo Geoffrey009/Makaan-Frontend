@@ -188,7 +188,7 @@ export const Dashboard = () => {
           <div>
             {results.map((u) => (
               <div key={u._id}>
-                <img src={u.profilePicture || "/default.png"} alt={u.fullName} width={50} />
+                <img src={u.profilePicture || defaultProfilePicture} alt={u.fullName} width={50} />
                 <span>{u.fullName}</span>
               </div>
             ))}
