@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash, FaCheckCircle, FaSpinner } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import loginBackground from "../assets/loginBackground.webp";
 import loginBackground02 from "../assets/loginBackground02.jpg";
 import loginBackground03 from "../assets/loginBackground03.jpg";
@@ -164,7 +165,8 @@ export const Login = () => {
                 {/* Google login button OUTSIDE the form */}
                 <div className="google-auth">
                     <button className="google-btn" type="button" onClick={() => login()}>
-                        Sign in with Google
+                        <FcGoogle size={25} className="google-icon" />
+                        <span>Continue with Google</span>
                     </button>
                 </div>
             </div>

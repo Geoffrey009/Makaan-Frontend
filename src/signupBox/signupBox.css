@@ -33,7 +33,8 @@
     border-radius: 5px;
     position: relative;
     top: 22vh;
-    padding: 20px 15px;
+    /* padding: 20px 15px; */
+    padding: 20px 15px 4px 15px;
     margin-left: 64.5%;
     box-shadow: 0 0 30px rgba(0, 0, 0, .8);
     animation: slideInRight 3s ease;
@@ -236,6 +237,69 @@ a {
 .line-two {
     margin-left: 10px;
 }
+
+.google-auth {
+    max-width: 700px;
+    /* desired width */
+    margin: 1rem auto;
+    /* center horizontally */
+}
+
+.google-btn {
+  position: relative; /* for ::before */
+  width: 100%;
+  height: 40px;
+  font-family: "Montserrat", sans-serif;
+  text-align: right;
+  line-height: 40px;
+  background-color: white; /* always starts white */
+  border: 1px solid rgb(118, 118, 118);
+  border-radius: 3px;
+  padding-right: 80px;
+  cursor: pointer;
+  overflow: hidden; /* clip sliding background */
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+
+/* Sliding background layer */
+.google-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%; /* collapsed by default */
+  height: 100%;
+  background-color: #8B4513; /* brown */
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+/* Expand background on hover */
+.google-btn:hover::before {
+  width: 100%;
+}
+
+.google-btn:hover {
+    color: white;
+    border-color: #8B4513;
+}
+
+/* Make sure text & icon stay above sliding background */
+.google-btn span,
+.google-btn img,
+.google-btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* Icon positioning (unchanged) */
+.google-icon {
+  position: absolute;
+  top: 7px;
+  left: 80px;
+}
+
 
 .login-success {
     display: none;

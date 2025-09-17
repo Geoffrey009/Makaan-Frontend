@@ -34,7 +34,8 @@
     border-radius: 5px;
     position: relative;
     top: 22vh;
-    padding: 20px 15px;
+    /* padding: 20px 15px; */
+    padding: 20px 15px 4px 15px;
     margin-left: 64.5%;
     box-shadow: 0 0 30px rgba(0, 0, 0, .8);
     animation: slideInRight 3s ease;
@@ -146,57 +147,65 @@ input:focus {
     font-size: 18px;
 }
 
-.eye, .eye-slash {
+.eye,
+.eye-slash {
     transition: all 0.4s ease;
 }
 
-.eye:hover, .eye-slash:hover {
+.eye:hover,
+.eye-slash:hover {
     color: #00B98E;
 }
 
 .login-btn {
-  position: relative; /* Needed for ::before overlay */
-  width: 100%;
-  height: 40px;
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #0E2E50; /* default bg */
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-  color: white;
-  cursor: pointer;
-  overflow: hidden; /* clip the sliding background */
-  z-index: 1;
+    position: relative;
+    /* Needed for ::before overlay */
+    width: 100%;
+    height: 40px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+    background-color: #0E2E50;
+    /* default bg */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    overflow: hidden;
+    /* clip the sliding background */
+    z-index: 1;
 }
 
 /* Sliding background layer */
 .login-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0%; /* start collapsed */
-  height: 100%;
-  background-color: #00B98E; /* hover color */
-  transition: width 0.4s ease;
-  z-index: 0;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    /* start collapsed */
+    height: 100%;
+    background-color: #00B98E;
+    /* hover color */
+    transition: width 0.4s ease;
+    z-index: 0;
 }
 
 /* Expand background on hover */
 .login-btn:hover::before {
-  width: 100%;
+    width: 100%;
 }
 
 /* Make sure button text stays above sliding bg */
 .login-btn span,
 .login-btn svg,
 .login-btn {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
+
 a {
     text-decoration: none;
 }
@@ -225,7 +234,8 @@ a {
     font-size: 14px;
 }
 
-.line-one, .line-two {
+.line-one,
+.line-two {
     /* position: absolute;
     width: 60px;
     height: 1px;
@@ -246,13 +256,65 @@ a {
 }
 
 .google-auth {
-    max-width: 700px; /* desired width */
-    margin: .5rem auto;   /* center horizontally */
+    max-width: 700px;
+    /* desired width */
+    margin: 1rem auto;
+    /* center horizontally */
 }
 
-.google-auth button {
-    width: 100%;      /* button fills parent */
-    max-width: 100%; /* optional: limit max width */
+.google-btn {
+  position: relative; /* for ::before */
+  width: 100%;
+  height: 40px;
+  font-family: "Montserrat", sans-serif;
+  text-align: right;
+  line-height: 40px;
+  background-color: white; /* always starts white */
+  border: 1px solid rgb(118, 118, 118);
+  border-radius: 3px;
+  padding-right: 80px;
+  cursor: pointer;
+  overflow: hidden; /* clip sliding background */
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+
+/* Sliding background layer */
+.google-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%; /* collapsed by default */
+  height: 100%;
+  background-color: #8B4513; /* brown */
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+/* Expand background on hover */
+.google-btn:hover::before {
+  width: 100%;
+}
+
+.google-btn:hover {
+    color: white;
+    border-color: #8B4513;
+}
+
+/* Make sure text & icon stay above sliding background */
+.google-btn span,
+.google-btn img,
+.google-btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* Icon positioning (unchanged) */
+.google-icon {
+  position: absolute;
+  top: 7px;
+  left: 80px;
 }
 
 
@@ -265,9 +327,11 @@ a {
     position: absolute;
     justify-self: center;
     border-left: 5px solid #00B98E;
-    top: -2vh; /* Start hidden */
+    top: -2vh;
+    /* Start hidden */
     opacity: 0;
-    pointer-events: none; /* Prevents clicks when hidden */
+    pointer-events: none;
+    /* Prevents clicks when hidden */
 }
 
 /* When showing */
@@ -292,15 +356,15 @@ a {
 }
 
 .spinner-text {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-self: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-self: center;
+    justify-content: center;
 }
 
 .spinner {
-  animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
 }
 
 .login-btn.not-allowed {
@@ -308,8 +372,13 @@ a {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes slideInRight {
@@ -363,6 +432,7 @@ a {
         top: -2vh;
         opacity: 0;
     }
+
     100% {
         top: 0;
         opacity: 1;
@@ -374,6 +444,7 @@ a {
         top: 0;
         opacity: 1;
     }
+
     100% {
         top: -2vh;
         opacity: 0;
