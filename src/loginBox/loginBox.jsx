@@ -164,7 +164,7 @@ export const Login = () => {
 
                 {/* Google login button OUTSIDE the form */}
                 <div className="google-auth">
-                    <button className="google-btn" type="button" onClick={() => login()}>
+                    <button className={`google-btn ${loading ? "not-allowed" : ""}`} type="button" onClick={() => login()} disabled={loading}>
                         <FcGoogle size={25} className="google-icon" />
                         <span>Continue with Google</span>
                     </button>

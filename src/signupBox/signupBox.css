@@ -293,6 +293,10 @@ a {
   z-index: 1;
 }
 
+.google-btn.not-allowed {
+    cursor: not-allowed;
+}
+
 /* Icon positioning (unchanged) */
 .google-icon {
   position: absolute;
