@@ -1,4 +1,5 @@
 import "./Header.css";
+import axios from "axios";
 import { useState, useEffect } from "react";
 import makaanLogo from "../assets/makaanIcon.png";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -10,14 +11,37 @@ export const Header = () => {
     const [pagesOpen, setPagesOpen] = useState(false);
     const [hasScrolled, setHasScrolled] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [mainUser, setMainUser] = useState(null);
 
     const navigate = useNavigate();
 
     // 🔑 Check login state on mount
     useEffect(() => {
-        const storedUser = sessionStorage.getItem("user");
-        setIsLoggedIn(!!storedUser); // true if user exists
+        const fetchUser = async () => {
+            try {
+                const storedUser = sessionStorage.getItem("user");
+                if (!storedUser) return; // no user logged in
+
+                const parsedUser = JSON.parse(storedUser);
+                const userId = parsedUser._id;
+
+                const token = sessionStorage.getItem("token");
+                const res = await axios.get(
+                    `https://makaan-real-estate.onrender.com/api/users/${userId}`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+
+                setMainUser(res.data);
+                setIsLoggedIn(true);
+            } catch (error) {
+                console.error(error);
+                setIsLoggedIn(false);
+            }
+        };
+
+        fetchUser();
     }, []);
+
 
     function checkScroll() {
         if (window.scrollY > 80) {
@@ -93,9 +117,12 @@ export const Header = () => {
                         <NavLink onClick={handleLogout} className="logout-btn">LOGOUT</NavLink>
                     )}
 
-                    <NavLink to="/addProperty" className={({ isActive }) => (isActive ? "active-link" : "")}>
-                        <button className="addProperty"><span>Add Property</span></button>
-                    </NavLink>
+                    {mainUser && mainUser.isAdmin && (
+                        <NavLink to="/addProperty" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                            <button className="addProperty"><span>Add Property</span></button>
+                        </NavLink>
+                    )}
+
                 </nav>
             </div>
         </div>

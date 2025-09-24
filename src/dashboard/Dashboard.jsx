@@ -1,16 +1,19 @@
 import { useEffect, useState, useRef } from "react";
-import { Header } from "./header/Header";
-import defaultProfilePicture from "./assets/no-picture.jpg";
+import { Header } from "../header/Header";
+import defaultProfilePicture from "../assets/no-picture.jpg";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { MdOutlineSettings, MdOutlineHouse, MdOutlineEmail, MdOutlineMarkEmailUnread } from "react-icons/md";
 import { FaUsers, FaUserEdit } from "react-icons/fa";
-import { Account } from "./account/Account";
-import { Users } from "./users/Users";
+import { Account } from "../account/Account";
+import { Users } from "../users/Users";
+import { General } from "../general/General";
+import "./Dashboard.css"
 
 export const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [totalUsers, setTotalUsers] = useState(null);
+  const [isClicked, setIsClicked] = useState(true);
 
   const socketRef = useRef(null);
 
@@ -87,17 +90,21 @@ export const Dashboard = () => {
   const parsedUserTwo = JSON.parse(storedUserTwo);
   const isAdmin = parsedUserTwo.isAdmin;
 
+  const showPanel = () => {
+    setIsClicked((prev) => {
+      return !prev;
+    })
+  }
+
   return (
     <>
       <Header />
-      <div className="dashboard">
+      {/* <div className="dashboard" style={{height: "200vh"}}>
         <h1>Dashboard</h1>
 
         {user ? (
           <>
-            <h2>
-              Hello {user.fullName || user.name} {user.isAdmin ? "(Admin)" : ""} 👋
-            </h2>
+          <General user={user} totalUsers={totalUsers} />
 
           <Account user={user} setUser={setUser} socketRef={socketRef} />
           </>
@@ -105,9 +112,21 @@ export const Dashboard = () => {
           <h2>Hello Guest</h2>
         )}
 
-        {user?.isAdmin && totalUsers !== null && <p>Total registered users: {totalUsers}</p>}
-
         {isAdmin && <Users />}
+      </div> */}
+
+      <div className="dashboard">
+        <div className={`dashboard-panel ${isClicked ? "show" : "hide"}`}>
+          <div className={`arrow-toggle ${isClicked ? "arrow-left" : "arrow-right"}`} onClick={showPanel}>
+            <div className="bar bar1"></div>
+            <div className="bar bar2"></div>
+            <div className="bar bar3"></div>
+          </div>
+          <div className="panel-picture-wrapper">
+            <img className="panel-picture" src={user?.profilePicture || defaultProfilePicture} alt="" />
+          </div>
+        </div>
+        <div className="dashboard-content"></div>
       </div>
     </>
   );

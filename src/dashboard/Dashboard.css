@@ -1,0 +1,125 @@
+/* === DASHBOARD LAYOUT === */
+.dashboard {
+  width: 100%;
+  height: 150vh;
+  display: flex; /* panel + content side by side */
+}
+
+/* === PANEL (LEFT SIDEBAR) === */
+.dashboard-panel {
+  width: 20%;
+  height: 100%;
+  background-color: #00B98E;
+  position: fixed; /* fixes panel on left side */
+  top: 0;
+  left: 0;
+  transition: transform 0.4s ease; /* smooth slide in/out */
+  z-index: 1000;
+}
+
+/* Visible state */
+.dashboard-panel.show {
+  transform: translateX(0);
+}
+
+/* Hidden state */
+.dashboard-panel.hide {
+  transform: translateX(-200px);
+}
+
+/* === CONTENT AREA === */
+.dashboard-content {
+  flex: 1; /* take remaining space */
+  height: 100%;
+  background-color: white;
+  margin-left: 20%; /* leaves space for fixed panel */
+  transition: margin-left 0.4s ease;
+}
+
+.dashboard-panel.hide ~ .dashboard-content {
+  margin-left: 0; /* content expands when panel hidden */
+}
+
+/* === PROFILE PICTURE === */
+.panel-picture-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 25vh;
+}
+
+.panel-picture {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover; /* avoids image stretching */
+}
+
+/* === TOGGLE ARROW BUTTON === */
+.arrow-toggle {
+  position: absolute;
+  top: 185px;
+  right: -20px; /* not too far off */
+  width: 40px;
+  height: 40px;
+  background: white; /* make it visible */
+  border: 2px solid #00B98E; /* match panel color */
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1100;
+  transition: background 0.3s ease, border 0.3s ease;
+}
+
+.arrow-toggle:hover {
+  background: #00B98E;
+  border-color: white;
+}
+
+
+/* Make sure all bars pivot from the correct side */
+.bar {
+  width: 20px;
+  height: 2px;
+  background: black;
+  transition: all 0.4s ease;
+  margin: 2px 0;
+}
+
+.bar1, .bar3 {
+    width: 15px;
+}
+
+/* LEFT ARROW (<) */
+.arrow-left .bar1 {
+  transform-origin: center left;
+  transform: rotate(45deg) translate(9px, 9px);
+}
+.arrow-left .bar2 {
+  opacity: 1; /* shaft always visible */
+  margin-left: 1.5px;
+}
+.arrow-left .bar3 {
+  transform-origin: center left;
+  transform: rotate(-45deg) translate(9px, -9px);
+}
+
+/* RIGHT ARROW (>) */
+.arrow-right .bar1 {
+  transform-origin: center right;
+  transform: rotate(-45deg) translate(-9px, 9px);
+}
+.arrow-right .bar2 {
+  opacity: 1;
+  margin-right: 2px;
+}
+.arrow-right .bar3 {
+  transform-origin: center right;
+  transform: rotate(45deg) translate(-9px, -9px);
+}

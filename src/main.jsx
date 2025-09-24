@@ -6,7 +6,7 @@ import { LoginPage } from "./Login";
 import { Contact } from "./Contact";
 import { SignupPage } from "./Signup";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { Dashboard } from "./Dashboard";
+import { Dashboard } from "./dashboard/Dashboard";
 import { Preloader } from "./preLoader/preLoader";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
