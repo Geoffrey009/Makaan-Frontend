@@ -3,7 +3,7 @@ import { Header } from "../header/Header";
 import defaultProfilePicture from "../assets/no-picture.jpg";
 import axios from "axios";
 import { io } from "socket.io-client";
-import { MdOutlineSettings, MdOutlineHouse, MdOutlineEmail, MdOutlineMarkEmailUnread } from "react-icons/md";
+import { MdOutlineSettings, MdOutlineHouse, MdOutlineEmail, MdOutlineMarkEmailUnread, MdAdminPanelSettings } from "react-icons/md";
 import { FaUsers, FaUserEdit } from "react-icons/fa";
 import { Account } from "../account/Account";
 import { Users } from "../users/Users";
@@ -14,8 +14,60 @@ export const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [totalUsers, setTotalUsers] = useState(null);
   const [isClicked, setIsClicked] = useState(true);
+  const [isGeneral, setIsGeneral] = useState(true);
+  const [isProperties, setIsProperties] = useState(false);
+  const [isUsers, setIsUsers] = useState(false);
+  const [isRequests, setIsRequests] = useState(false);
+  const [isAccount, setIsAccount] = useState(false);
+  const [isArrowClicked, setIsArrowClicked] = useState(false);
 
   const socketRef = useRef(null);
+
+  function showGeneral() {
+    isProperties && setIsProperties(false);
+    isUsers && setIsUsers(false);
+    isRequests && setIsRequests(false);
+    isAccount && setIsAccount(false);
+    isGeneral == false && setIsGeneral(true);
+  };
+
+  function showProperties() {
+    isGeneral && setIsGeneral(false);
+    isUsers && setIsUsers(false);
+    isRequests && setIsRequests(false);
+    isAccount && setIsAccount(false);
+    isProperties == false && setIsProperties(true);
+  };
+
+  function showUsers() {
+    isGeneral && setIsGeneral(false);
+    isProperties && setIsProperties(false);
+    isRequests && setIsRequests(false);
+    isAccount && setIsAccount(false);
+    isUsers == false && setIsUsers(true);
+  };
+
+  function showRequests() {
+    isGeneral && setIsGeneral(false);
+    isProperties && setIsProperties(false);
+    isUsers && setIsUsers(false);
+    isAccount && setIsAccount(false);
+    isRequests == false && setIsRequests(true);
+  };
+  
+  function showAccount() {
+    isGeneral && setIsGeneral(false);
+    isProperties && setIsProperties(false);
+    isUsers && setIsUsers(false);
+    isRequests && setIsRequests(false);
+    isAccount == false && setIsAccount(true);
+  };
+
+  // const [isGeneral, setIsGeneral] = useState(true);
+  // const [isProperties, setIsProperties] = useState(true);
+  // const [isUsers, setIsUsers] = useState(true);
+  // const [isRequests, setIsRequests] = useState(true);
+  // const [isAccount, setIsAccount] = useState(true);
 
   // Load user, fetch latest from backend, and initialize socket
   useEffect(() => {
@@ -91,10 +143,15 @@ export const Dashboard = () => {
   const isAdmin = parsedUserTwo.isAdmin;
 
   const showPanel = () => {
-    setIsClicked((prev) => {
-      return !prev;
-    })
+    setIsClicked((prev) => !prev)
+    setIsArrowClicked((prev) => !prev);
   }
+
+  const userGeneral = user && isGeneral;
+  const userProperties = user && isProperties;
+  const userUsers = user && isUsers;
+  const userRequests = user && isRequests;
+  const userAccount = user && isAccount;
 
   return (
     <>
@@ -122,11 +179,50 @@ export const Dashboard = () => {
             <div className="bar bar2"></div>
             <div className="bar bar3"></div>
           </div>
-          <div className="panel-picture-wrapper">
+
+          <div className={`panel-picture-wrapper ${isArrowClicked ? "none" : ""}`}>
             <img className="panel-picture" src={user?.profilePicture || defaultProfilePicture} alt="" />
+            <p className="panel-username">
+              {user
+                ? `${user.fullName}${user.isAdmin ? " (Admin)" : ""}`
+                : "Guest"}
+            </p>
+
           </div>
+
+          <div className={`panel-tabs ${isArrowClicked ? "none" : ""}`}>
+            <div className={`general-tab ${isGeneral ? "border-left" : ""}`} onClick={showGeneral}>
+              <span>
+                <MdOutlineSettings className="general-icon" size={27} style={{ color: "white" }} /> <p>General</p>
+              </span>
+            </div>
+            <div className={`properties-tab ${isProperties ? "border-left" : ""}`} onClick={showProperties}>
+              <span>
+                <MdOutlineHouse className="general-icon" size={27} style={{ color: "white" }} /> <p>Properties</p>
+              </span>
+            </div>
+            <div className={`users-tab ${isUsers ? "border-left" : ""}`} onClick={showUsers}>
+              <span>
+                <FaUsers className="general-icon" size={27} style={{ color: "white" }} /> <p>Users</p>
+              </span>
+            </div>
+            <div className={`requests-tab ${isRequests ? "border-left" : ""}`} onClick={showRequests}>
+              <span>
+                <MdOutlineEmail className="general-icon" size={27} style={{ color: "white" }} /> <p>Requests</p>
+              </span>
+            </div>
+            <div className={`account-tab ${isAccount ? "border-left" : ""}`} onClick={showAccount}>
+              <span>
+                <FaUserEdit className="general-icon" size={27} style={{ color: "white" }} /> <p>Account</p>
+              </span>
+            </div>
+          </div>
+
         </div>
-        <div className="dashboard-content"></div>
+        <div className="dashboard-content">
+          {userGeneral && <General user={user} totalUsers={totalUsers} />}
+          {userAccount && <Account user={user} setUser={setUser} socketRef={socketRef} />}
+        </div>
       </div>
     </>
   );

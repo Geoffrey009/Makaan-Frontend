@@ -50,7 +50,7 @@ export const Account = ({ user, setUser, socketRef }) => {
     };
 
     return (
-        <div>
+        <div className="account">
             <div style={{ marginTop: "15px" }}>
                 <img
                     src={user.profilePicture || defaultProfilePicture}
